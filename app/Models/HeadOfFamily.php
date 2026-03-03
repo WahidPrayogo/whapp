@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class HeadOfFamily extends Model
+{
+    use SoftDeletes, UUID;
+        
+    protected $fillable = [
+            'user_id',
+            'profile_picture',
+            'identity_number',
+            'gender',
+            'date_of_birth',
+            'phone_number',
+            'occupation',
+            'marital_status'
+    ];
+
+    /**
+     * Get the user that owns the HeadOfFamily
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function familyMembers()
+    {
+        return $this->hasMany(FamilyMember::class);
+    }
+
+    /**
+     * Get all of the socialAssistanceRecipient for the HeadOfFamily
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function socialAssistanceRecipient()
+    {
+        return $this->hasMany(SocialAssistanceRecipient::class);
+    }
+
+    /**
+     * Get all of the eventParticipant for the HeadOfFamily
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventParticipant()
+    {
+        return $this->hasMany(EventParticipant::class);
+    }
+}
